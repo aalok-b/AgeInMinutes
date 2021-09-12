@@ -13,14 +13,14 @@ import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.concurrent.timer
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // get reference to button
-        val btnDatePicker = findViewById(R.id.btnDatePicker) as Button
+
         // set on-click listener
         btnDatePicker.setOnClickListener {view ->
             clickDatePicker(view)
@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Date Selected $dayOfMonth", Toast.LENGTH_SHORT).show()
 
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
-            val tvSelectedDate = findViewById(R.id.tvSelectedDate) as TextView
 
             tvSelectedDate.setText(selectedDate)
 
@@ -52,16 +51,17 @@ class MainActivity : AppCompatActivity() {
             val currentDate = sdf.parse(sdf.format(System.currentTimeMillis()))
             val currentDateInMinutes = currentDate!!.time / 60000
 
-            val finalAns = currentDateInMinutes - selectedDateInMinutes
+            var finalAns = currentDateInMinutes - selectedDateInMinutes
 
-            val tvSelectedDateInMinutes = findViewById(R.id.tvSelectedDateInMinutes) as TextView
+            if( finalAns < 0){
+                finalAns = - finalAns
+            }
 
             tvSelectedDateInMinutes.setText("$finalAns  Min")
 
 
             val finalAnsDays = finalAns /1440
 
-            val tvSelectedDateInDays = findViewById(R.id.tvSelectedDateInDays) as TextView
 
             tvSelectedDateInDays.setText("$finalAnsDays  Days")
 
